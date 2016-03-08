@@ -5,6 +5,7 @@ from django.db import models
 from django.core.validators import RegexValidator
 # Create your models here.
 
+# Carrier User Table
 class ServiceProfile(models.Model):
 	Name = models.TextField()
 	Email = models.EmailField()
@@ -13,6 +14,7 @@ class ServiceProfile(models.Model):
 	Language = models.CharField(max_length=10)
 	Currency = models.CharField(max_length=10)
 
+# Carrier User Service area addition
 class Service(models.Model):
 	geos = PolygonField()
 	# objects = gs_models.GeoManager()

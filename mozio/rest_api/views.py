@@ -17,12 +17,13 @@ import geojson
 import json
 import ast
 
+# class for User Table interaction
 class Register(CreateView):
 	# @method_decorator(csrf_exempt)
 	@csrf_exempt
 	def dispatch(self, request, *args, **kwargs):
 		return super(Register, self).dispatch(request, *args, **kwargs)
-
+# function to get users given names
 	def get(self,request, *args, **kwargs):
 		results = list()
 		response = list()
@@ -41,6 +42,7 @@ class Register(CreateView):
 			response.append(data)
 		return JsonResponse({'Response':response})
 
+# function to Register user
 	def post(self,request,*args, **kwargs):
 		Name = request.POST.get('Name')
 		Phone = request.POST.get('Phone')
@@ -54,6 +56,7 @@ class Register(CreateView):
 			return HttpResponseServerError('<h1>Server Error (500)</h1>') 
 		return JsonResponse({'response':'Success'})
 
+# function to update user
 	def put(self,request,*args, **kwargs):
 		data = request.read()
 		data = [d.split('=')for d in data.split('&')]
@@ -68,7 +71,8 @@ class Register(CreateView):
 		result.Currency = data['Currency']
 		result.save()
 		return JsonResponse({'Response':'Success'})
-		
+
+# function to delete user
 	def delete(self, request,*args,**kwargs):
 		data = request.read()
 		data = [d.split('=')for d in data.split('&')]
@@ -81,13 +85,13 @@ class Register(CreateView):
 			return HttpResponse(json.dumps({'Response':'Record not found'}),content_type="application/json",status=404)
 		return JsonResponse({'Response':'Success'})
 
-
+# class for user polygons register
 class Polygon(CreateView):
 	# @method_decorator(csrf_exempt)
 	@csrf_exempt
 	def dispatch(self, request, *args, **kwargs):
 		return super(Polygon, self).dispatch(request, *args, **kwargs)
-
+# functions to get service
 	def get(self,request, *args, **kwargs):
 		Names = request.GET.getlist('Name')
 		Service_ids = request.GET.getlist('Service_id')
@@ -121,6 +125,7 @@ class Polygon(CreateView):
 			response.append(georesult)
 		return JsonResponse({'Response':response})
 
+# function to register service
 	def post(self,request,*args, **kwargs):
 		geos = json.dumps(request.POST.get('geos'))
 		Service_id = request.POST.get('Service_id')
@@ -141,6 +146,7 @@ class Polygon(CreateView):
 
 		return JsonResponse({'Response':'Success'})
 
+# function to update service
 	def put(self,request,*args, **kwargs):
 		data = request.read()
 		data = [d.split('=')for d in data.split('&')]
@@ -160,6 +166,7 @@ class Polygon(CreateView):
 		result.save()
 		return JsonResponse({'Response':'Success'})
 
+# function to delete survice
 	def delete(self, request,*args,**kwargs):
 		data = request.read()
 		data = [d.split('=')for d in data.split('&')]
@@ -180,6 +187,7 @@ class Polygon(CreateView):
 		return JsonResponse({'Response':'Success'})
 
 
+# class to create geojson type
 class polygon():
 	def __init__(self,x):
 		self.x = x
